@@ -371,7 +371,7 @@ export default function PlaygroundPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">{apiKeys.length}</p>
+            <p className="text-3xl font-bold">{apiKeys.filter(key => !isKeyInactive(key)).length}</p>
           </CardContent>
         </Card>
       </div>
@@ -456,18 +456,16 @@ export default function PlaygroundPage() {
                   </td>
                   <td className="px-4 py-3 text-gray-400">{key.createdAt.split('T')[0]}</td>
                   <td className="px-4 py-3 flex space-x-2">
-                    <button onClick={() => toggleKeyVisibility(key.id)} className="text-gray-400 hover:text-playwright-green">
+                    <button onClick={() => toggleKeyVisibility(key.id)} className="text-gray-400 hover:text-playwright-green cursor-pointer" title="Show/Hide Key">
                       {key.showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
-                    <button onClick={() => copyKeyToClipboard(key.key)} className="text-gray-400 hover:text-playwright-green">
-                      <Clipboard className="h-4 w-4" />
-                    </button>
+                    <button onClick={() => copyKeyToClipboard(key.key)} className="text-gray-400 hover:text-playwright-green cursor-pointer" title="Copy Key"><Clipboard className="h-4 w-4" /></button>
                     {!inactive && (
                       <>
-                        <button onClick={() => handleEditClick(key.id)} className="text-gray-400 hover:text-playwright-green">
+                        <button onClick={() => handleEditClick(key.id)} className="text-gray-400 hover:text-playwright-green cursor-pointer" title="Edit Key">
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button onClick={() => handleDeleteClick(key.id)} className="text-gray-400 hover:text-playwright-green">
+                        <button onClick={() => handleDeleteClick(key.id)} className="text-gray-400 hover:text-playwright-green cursor-pointer" title="Delete Key">
                           <Trash className="h-4 w-4" />
                         </button>
                       </>
@@ -513,7 +511,7 @@ export default function PlaygroundPage() {
                   value={newKeyName}
                   onChange={(e) => setNewKeyName(e.target.value)}
                   className="w-full p-2 bg-gray-800 border border-gray-600 rounded-md text-white placeholder-gray-500 focus:outline-none focus:border-playwright-green"
-                  placeholder="e.g., My App Production Key"
+                  placeholder="Enter the key name"
                   required
                 />
               </div>
